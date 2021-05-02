@@ -1,25 +1,10 @@
 # Demo
-```{r, echo=FALSE}
-# Define variable containing url
-url <- "https://ibb.co/ZX6xhS2"
-```
-## Some cat!
-<center><img src="`r url`"></center>
 
-```{r, echo=FALSE}
-# Define variable containing url
-url2 <- "https://ibb.co/9TpWbvZ"
-```
-## Some cat!
-<center><img src="`r url2`"></center>
+<center><img src="https://ibb.co/ZX6xhS2"></center>
 
+<center><img src="https://ibb.co/9TpWbvZ"></center>
 
-```{r, echo=FALSE}
-# Define variable containing url
-url3 <- "https://ibb.co/0Dk6LPp"
-```
-## Some cat!
-<center><img src="`r url3`"></center>
+<center><img src="https://ibb.co/0Dk6LPp"></center>
 
 # React-Native Application | Personal Finance
 
