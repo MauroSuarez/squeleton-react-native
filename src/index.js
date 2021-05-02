@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './features/App';
 import * as serviceWorker from './serviceWorker';
-import { worker } from './mocks/browser'
 
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./mocks/browser')

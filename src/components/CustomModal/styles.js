@@ -1,4 +1,20 @@
 import { StyleSheet } from "react-native"
+import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+export const DatePickerWrapper = styled(DatePicker)`
+  display: flex;
+  height: 30px !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 15px !important;
+  border: 0px !important;
+	width: 96% !important;
+	border: solid 1px !important;
+	margin-bottom: 40px !important;
+	padding: 5px !important;
+`;
 
 export const styles = StyleSheet.create({
 	container: {
@@ -13,7 +29,8 @@ export const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     marginTop: '10px',
-    marginBottom: '30px'
+		marginBottom: '30px',
+		padding: '5px'
 	},
 	textarea: {
     height: 80,
@@ -47,18 +64,13 @@ export const styles = StyleSheet.create({
 		paddingTop: 20
 	},
 	listItem: {
-		fontSize: '10px'
+		fontSize: '10px',
+		textAlign: 'left'
 	},
 	buttonLoggin: {
     padding: '10px',
 		marginTop: '100px',
 		alignSelf: 'stretch'
-	},
-	listContainer: {
-		paddingTop: 20
-	},
-	listItem: {
-		fontSize: 20
 	},
 	separator: {
 		borderColor: '#eee',

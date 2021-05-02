@@ -1,46 +1,77 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Text, View, FlatList, SafeAreaView, Button, ActivityIndicator, TextInput, Platform } from "react-native"
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, View, FlatList, Button, ActivityIndicator, Platform, TouchableOpacity } from "react-native"
 import { styles } from './styles';
 import { CustomModal } from '../../components/CustomModal'
-import { HEADERS, TYPES } from '../../constant';
-import { AppContext } from '../../context'
-import { render } from 'react-dom';
-
+import { HEADERS, ANDROID } from '../../constant';
+import { getBalance, deleteBalanceById, saveBalance } from '../../api/dataService';
+import { AppContext } from '../../context';
+import { convertDateToFormatt, filterCategory, sumAmmount } from '../../utils';
 
 const Home = () => {
+	const { setTotalAmmount, token } = useContext(AppContext);
 	const [openModal, setOpenModal] = useState(false);
-	const [listFinance, setListFinance] = useState([
-		{
-			id: 1,
-			date: '01/01/2020',
-			type: 'Ingreso',
-			category: 'Freelance',
-			ammount: '1000'
-		},
-		{
-			id: 2,
-			date: '11/01/2020',
-			type: 'Egreso',
-			category: 'Freelance',
-			ammount: '500'
-		},
-	]);
+	const [listFinance, setListFinance] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const handleButtonModalClose = () => setOpenModal(!openModal);
-	const handleButtonModalSave = () => {
 
+	// Call service saveBalance to new inserta balance data session storage
+	const handleButtonModalSave = async (item) => {
+		let humanDate = convertDateToFormatt(item.dateTime);
+		delete item.dateTime;
+		item.date = humanDate;
+		item.type = item.ammount > 0 ? 'Ingreso' : 'Egreso';
+		let resp = await saveBalance({item, token: token});
+		setListFinance(resp.data);
+		let total = sumAmmount(resp.data);
+		setTotalAmmount(total);
+		setOpenModal(!openModal);
 	}
 
-	const keyExtractor = (item, index) => item.id.toString()
+	// Call service getBalance all data
+	const getAllBalance = async () => {
+		let resp = await getBalance({token: token});
+		let balance = JSON.parse(resp.data);
+		setListFinance(balance);
+		let total = sumAmmount(balance);
+		setTotalAmmount(total);
+		setLoading(false);
+	}
 
+	// Call service delte balance by id, remove element session storage
+	const deleteElementBalance = async (item) => {
+		let resp = await deleteBalanceById({id: item.id, token: token});
+		setListFinance(resp.data);
+		let total = sumAmmount(resp.data);
+		setTotalAmmount(total);
+	}
+
+	// Useeffect, init load data from session storage
+	useEffect(() => {
+		getAllBalance();
+		return(() => {
+			setLoading(false);
+			setListFinance([]);
+			setOpenModal(false);
+    });
+	}, []);
+
+	// Extract key for FlatList render
+	const keyExtractor = (item, index) => item.id.toString();
+
+	// Render item FlatList
 	const renderItem = ({ item }) => (
 		<View style={styles.fixToTextItem}>
-			<Text style={styles.listItem}>{item.date}</Text>
+			<Text style={styles.listItem}>{item.date.substring(0, 10)}</Text>
 			<Text style={styles.listItem}>{item.type}</Text>
-			<Text style={styles.listItem}>{item.category}</Text>
+			<Text style={styles.listItem}>{filterCategory(item.category)}</Text>
 			<Text style={styles.listItem}>{item.ammount}</Text>
+			<TouchableOpacity onPress={() => deleteElementBalance(item)}>
+				<Text style={styles.textDelete}>X</Text>
+			</TouchableOpacity>
 		</View>
 	)
 
+	// Render Headers text in Flatlist
 	const renderHeader = () => {
 		return (
 		<View style={styles.fixToText}>
@@ -52,32 +83,40 @@ const Home = () => {
 				)
 			})}
 		</View>);
-	} 
+	}
+
+	// Render empty text if not data in array
+	const emptyListMessage = () => {
+		return <Text style={styles.emptyText}>No hay datos en tu balance</Text>
+	}
   return (
     <View style={styles.container}>
 			{openModal
-				? <CustomModal onClose={handleButtonModalClose} onSave={handleButtonModalSave} />
+				? <CustomModal onClose={handleButtonModalClose} onSave={(item) => handleButtonModalSave(item)} />
 				: (
 					<>
 						<Button style={styles.buttonLoggin} onPress={handleButtonModalClose} title="+ Cargar nuevo" color="#841584" />
-						<FlatList
-							style={styles.flatlist}
-							ItemSeparatorComponent={
-								Platform.OS !== 'android' &&
-								(({ highlighted }) => (
-									<View
-										style={[
-											styles.separator,
-											highlighted && { marginLeft: 0 }
-										]}
-									/>
-								))
-							}
-							ListHeaderComponent={renderHeader}
-							data={listFinance}
-							keyExtractor={keyExtractor}
-							renderItem={renderItem}
-						/>
+						{loading
+							? <ActivityIndicator size="small" color="#841584" />
+							: <FlatList
+								style={styles.flatlist}
+								ItemSeparatorComponent={
+									Platform.OS !== ANDROID &&
+									(({ highlighted }) => (
+										<View
+											style={[
+												styles.separator,
+												highlighted && { marginLeft: 0 }
+											]}
+										/>
+									))
+								}
+								ListHeaderComponent={renderHeader}
+								data={listFinance}
+								keyExtractor={keyExtractor}
+								renderItem={renderItem}
+								ListEmptyComponent={emptyListMessage}
+							/>}
 					</>
 				)
 			}

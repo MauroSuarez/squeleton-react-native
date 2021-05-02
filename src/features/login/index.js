@@ -2,12 +2,16 @@ import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, SafeAreaView, Image, ActivityIndicator } from "react-native"
 import { AppContext } from '../../context'
 import { singin } from '../../api/authService';
+import { initialData } from '../../api/dataService';
 
 const Login = () => {
-  const { username, setUsername, password, setPassword, setToken } = useContext(AppContext);
+  const { setToken } = useContext(AppContext);
+  const [username, setUsername] = useState('admin');
+  const [password, setPassword] = useState('admin');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Handler login button to call loginService, validate dummy user and return dummy token
   const handleButtonLogin = async () => {
     setLoading(true);
     setMessage('');
@@ -19,7 +23,13 @@ const Login = () => {
     }
   }
 
+  // Init render component load init data session storage dummy
+  const loadData = async () => {
+    await initialData();
+  }
+
   useEffect(() => {
+    loadData();
     return(() => {
       setMessage('');
       setLoading(false);
@@ -53,6 +63,11 @@ const Login = () => {
       <View style={styles.containerLogo}>
         <Text style={{color: '#e74c3c', marginTop: '25px'}}>{message}</Text>
       </View>
+      <View style={styles.containerLogo}>
+        <Text style={{color: '#3498db', marginTop: '25px'}}>
+          {JSON.stringify('usuario: admin, password: admin')}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -77,7 +92,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     marginTop: '10px',
-    marginBottom: '30px'
+    marginBottom: '30px',
+    padding: '5px'
   },
   containerLogo: {
     display: 'flex',

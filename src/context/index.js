@@ -3,17 +3,14 @@ import React, { createContext, useState } from 'react';
 export const AppContext = createContext(null);
 
 export const AppContextProvider = ({children}) => {
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
   const [token, setToken] = useState('');
+  const [totalAmmount, setTotalAmmount] = useState(0);
   return (
     <AppContext.Provider value={{
-      username,
-      setUsername,
-      password,
-      setPassword,
       token,
-      setToken
+      setToken,
+      totalAmmount,
+      setTotalAmmount
     }}>
 			{children}
 		</AppContext.Provider>

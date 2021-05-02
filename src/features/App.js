@@ -11,20 +11,3 @@ const App = () => {
 }
 
 export default App
-
-/*
-<View style={styles.container}>
-			<Text style={styles.text}>{text}</Text>
-			<authContext.Consumer>
-			{user => (
-				<dl>
-					<dt>Title:</dt>
-					<dd>{user.username}</dd>
-					<dt>Artist:</dt>
-					<dd>{user.password}</dd>
-					<dt>Genre:</dt>
-				</dl>
-			)}
-		</authContext.Consumer>
-		</View>
-*/

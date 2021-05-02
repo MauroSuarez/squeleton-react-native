@@ -13,7 +13,8 @@ export const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     marginTop: '10px',
-    marginBottom: '30px'
+		marginBottom: '30px',
+		padding: '5px'
 	},
 	flatlist: {
 		marginTop: '25px',
@@ -28,11 +29,9 @@ export const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 30
 	},
-	listContainer: {
-		paddingTop: 20
-	},
 	listItem: {
-		fontSize: '10px'
+		fontSize: '10px',
+		textAlign: 'left'
 	},
 	buttonLoggin: {
     padding: '10px',
@@ -41,9 +40,6 @@ export const styles = StyleSheet.create({
 	},
 	listContainer: {
 		paddingTop: 20
-	},
-	listItem: {
-		fontSize: 20
 	},
 	separator: {
 		borderColor: '#eee',
@@ -66,4 +62,16 @@ export const styles = StyleSheet.create({
 		padding: '5px',
 		height: '40px'
 	},
+	textDelete: {
+		color: '#e74c3c',
+		fontSize: '18px',
+		fontWeight: 'bold'
+	},
+	emptyText: {
+		color: '#2c3e50',
+		fontSize: '12px',
+		fontWeight: 'bold',
+		textAlign: 'center',
+		marginTop: '30px',
+	}
 })
