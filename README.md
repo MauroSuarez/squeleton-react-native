@@ -1,10 +1,3 @@
-# Demo
-
-<center><img src="https://ibb.co/ZX6xhS2"></center>
-
-<center><img src="https://ibb.co/9TpWbvZ"></center>
-
-<center><img src="https://ibb.co/0Dk6LPp"></center>
 
 # React-Native Application | Personal Finance
 
