@@ -14,6 +14,14 @@ const Home = () => {
 	const [loading, setLoading] = useState(false);
 	const handleButtonModalClose = () => setOpenModal(!openModal);
 
+	// Useeffect, init load data from session storage
+	useEffect(() => {
+    getAllBalance();
+    return(() => {
+      setLoading(false);
+    });
+	}, []);
+
 	// Call service saveBalance to new inserta balance data session storage
 	const handleButtonModalSave = async (item) => {
 		let humanDate = convertDateToFormatt(item.dateTime);
@@ -45,15 +53,7 @@ const Home = () => {
 		let total = sumAmmount(resp.data);
 		setTotalAmmount(total);
 	}
-
-	// Useeffect, init load data from session storage
-	useEffect(() => {
-		getAllBalance();
-		return(() => {
-			setLoading(false);
-    });
-	}, []);
-
+	
 	// Extract key for FlatList render
 	const keyExtractor = (item, index) => item.id.toString();
 
@@ -63,7 +63,7 @@ const Home = () => {
 			<Text style={styles.listItem}>{item.date.substring(0, 10)}</Text>
 			<Text style={styles.listItem}>{item.type}</Text>
 			<Text style={styles.listItem}>{filterCategory(item.category)}</Text>
-			<Text style={styles.listItem}>{item.ammount}</Text>
+			<Text style={styles.listItem}>{parseFloat(item.ammount).toFixed(2)}</Text>
 			<TouchableOpacity onPress={() => deleteElementBalance(item)}>
 				<Text style={styles.textDelete}>X</Text>
 			</TouchableOpacity>

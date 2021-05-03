@@ -10,7 +10,6 @@ const UselessTextInput = (props) => {
     <TextInput
       {...props}
       editable
-      maxLength={40}
     />
   );
 }
@@ -25,12 +24,13 @@ export const CustomModal = ({
 	const [description, setDescription] = useState('');
 	const [ammount, setAmount] = useState('');
   const [dateTime, setDateTime] = useState(new Date());
+  const [count, setCount] = useState(0);
   const handleCategory = (itemValue, itemIndex) => {
     setCategory(itemValue);
   }
   // handle save callback onSave function
   const handleSave = () => {
-    if(title !== '' && ammount !== 0 && category > 0 && dateTime !== null) {
+    if(title !== '' && ammount !== '' && category > 0 && dateTime !== null) {
       let obj = {
         title,
         category,
@@ -41,6 +41,21 @@ export const CustomModal = ({
       onSave(obj);
     } else {
       setMessage('Los campos son obligatorios');
+    }
+  }
+
+  // Set ammount
+  const handleAmmount = (value) => {
+    if(value.length <= 8) {
+      setAmount(value);
+    }
+  }
+
+  // Set comment
+  const handleDescription = (value) => {
+    if (value.length <= 90) {
+      setDescription(value);
+      setCount(value.length);
     }
   }
 
@@ -56,6 +71,7 @@ export const CustomModal = ({
                   style={styles.input}
                   onChangeText={setTitle}
                   value={title}
+                  maxLength={40}
                 />
     },
     {
@@ -75,13 +91,14 @@ export const CustomModal = ({
     },
     {
       id: '3',
-      label: <Text>Descripción</Text>,
+      label: <Text>Descripción: 90/{count}</Text>,
       element: <UselessTextInput
                 style={styles.textarea}
                 multiline
                 numberOfLines={4}
-                onChangeText={setDescription}
+                onChangeText={(value) => handleDescription(value)}
                 value={description}
+                maxLength={90}
               />
     },
     {
@@ -89,10 +106,9 @@ export const CustomModal = ({
       label: <Text>Monto</Text>,
       element: <TextInput
                 style={styles.input}
-                onChangeText={setAmount}
+                onChangeText={(value) => handleAmmount(value)}
                 value={ammount}
                 keyboardType='numeric'
-                maxLength={10}
               />
     },
     {

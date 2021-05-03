@@ -73,7 +73,7 @@ export const formatMoney = (amount, decimalCount = 2, decimal = ',', thousands =
 export const sumAmmount = (balance) => {
   const total = balance.reduce(
     (r, e) => {
-      return parseInt(r) + parseInt(e.ammount)
+      return parseFloat(r) + parseFloat(e.ammount)
     },
     0
   );
