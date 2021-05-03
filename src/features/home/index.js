@@ -11,7 +11,7 @@ const Home = () => {
 	const { setTotalAmmount, token } = useContext(AppContext);
 	const [openModal, setOpenModal] = useState(false);
 	const [listFinance, setListFinance] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const handleButtonModalClose = () => setOpenModal(!openModal);
 
 	// Call service saveBalance to new inserta balance data session storage
@@ -29,6 +29,7 @@ const Home = () => {
 
 	// Call service getBalance all data
 	const getAllBalance = async () => {
+		setLoading(true);
 		let resp = await getBalance({token: token});
 		let balance = JSON.parse(resp.data);
 		setListFinance(balance);
@@ -50,8 +51,6 @@ const Home = () => {
 		getAllBalance();
 		return(() => {
 			setLoading(false);
-			setListFinance([]);
-			setOpenModal(false);
     });
 	}, []);
 

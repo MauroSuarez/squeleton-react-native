@@ -6,8 +6,8 @@ import { initialData } from '../../api/dataService';
 
 const Login = () => {
   const { setToken } = useContext(AppContext);
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -20,6 +20,7 @@ const Login = () => {
       setToken(resp.data.token);
     }else {
       setMessage('Usuario y/o contraseña son inválidas');
+      setLoading(false);
     }
   }
 
@@ -34,7 +35,7 @@ const Login = () => {
       setMessage('');
       setLoading(false);
     });
-  })
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Mis Finanzas</Text>
@@ -44,24 +45,27 @@ const Login = () => {
       <SafeAreaView>
         <Text>Usuario</Text>
         <TextInput
+          testID="test-username"
           style={styles.input}
           onChangeText={setUsername}
           value={username}
         />
         <Text>Password</Text>
         <TextInput
+          testID="test-password"
           style={styles.input}
           onChangeText={setPassword}
           value={password}
           secureTextEntry={true}
+          maxLength={6}
         />
         {loading
           ? <ActivityIndicator size="small" color="#841584" />
-          : <Button style={styles.buttonLoggin} onPress={handleButtonLogin} title="Ingresar" color="#841584" />
+          : <Button testID="sumbitLogin" style={styles.buttonLoggin} onPress={handleButtonLogin} title="Ingresar" color="#841584" />
         }
       </SafeAreaView>
       <View style={styles.containerLogo}>
-        <Text style={{color: '#e74c3c', marginTop: '25px'}}>{message}</Text>
+        <Text testID="test-error-message" style={{color: '#e74c3c', marginTop: '25px'}}>{message}</Text>
       </View>
       <View style={styles.containerLogo}>
         <Text style={{color: '#3498db', marginTop: '25px'}}>

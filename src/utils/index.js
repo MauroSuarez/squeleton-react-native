@@ -24,7 +24,7 @@ export const convertDateToFormatt = date => {
  */
 export const filterCategory = val => {
   let label = CATEGORY.filter(item => {
-    if(item.id == val) {
+    if(parseInt(item.id) === parseInt(val)) {
       return item;
     }
   })[0];
