@@ -6,8 +6,8 @@ import { initialData } from '../../api/dataService';
 
 const Login = () => {
   const { setToken } = useContext(AppContext);
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
