@@ -6,6 +6,7 @@
 Se instalo expo para poder correr react-native en el browser, de esta manera es más fácil que lo puedan levantar y probar.
 Se instalo la librería msw para simular la llamada a servicios.
 La información se guarda en el sessinoStorage para mantela.
+Para una correcta visualización, presione F12 o click derecho inspeccionar, luego click en Toggle device Toolbar
 ```
 
 # Pre-requisites
