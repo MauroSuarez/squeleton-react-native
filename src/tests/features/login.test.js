@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, waitForElement } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { act } from "react-dom/test-utils";
-import Login from '../../../../reactnativeweb-demo/src/features/login';
+import Login from '../../../src/features/login';
 
 describe('<Login />', () => {
   it('renders correctly username', () => {

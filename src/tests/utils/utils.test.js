@@ -4,7 +4,7 @@ import {
   convertDateToFormatt,
   filterCategory,
   formatMoney
-} from '../../../../reactnativeweb-demo/src/utils/index';
+} from '../../../src/utils'
 
 describe("Formatt date function", () => {
   test("formatt to date human", () => {
